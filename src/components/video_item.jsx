@@ -1,15 +1,19 @@
 import React from "react";
 
-const VideoItem = (props) => {
+const VideoItem = ({ video, onVideoClick }) => {
+    // console.log(video);
+    const onClick = () => {
+        onVideoClick(video);
+    };
     return (
-        <div className="card">
-            <img src={props.video.snippet.thumbnails.medium.url} />
+        <div className="card" onClick={onClick}>
+            <img src={video.snippet.thumbnails.medium.url} />
             <div>
                 <p className="card-title">
-                    {props.video.snippet.title}
+                    {video.snippet.title}
                     <br />
                     <br />
-                    {props.video.snippet.channelTitle}
+                    {video.snippet.channelTitle}
                 </p>
             </div>
         </div>

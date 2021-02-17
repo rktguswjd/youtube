@@ -1,12 +1,17 @@
 import React from "react";
 import VideoItem from "./video_item";
 
-const VideoList = (props) => {
-    console.log(props);
+const VideoList = ({ videos, onVideoClick }) => {
     return (
         <ul>
-            {props.videos.map((video) => {
-                return <VideoItem key={video.etag} video={video} />;
+            {videos.map((video) => {
+                return (
+                    <VideoItem
+                        key={video.id}
+                        video={video}
+                        onVideoClick={onVideoClick}
+                    />
+                );
             })}
         </ul>
     );

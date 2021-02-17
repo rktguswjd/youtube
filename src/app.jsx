@@ -2,9 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import SearchForm from "./components/search_form";
 import VideoList from "./components/video_list";
 import "./app.css";
+import VideoDetail from "./components/video_detail";
 
 function App() {
     const [videos, setVideos] = useState([]);
+    const [selectedVideo, setSelectedVideo] = useState("");
 
     const handleSearch = useCallback((search) => {
         let requestOptions = {
@@ -17,10 +19,24 @@ function App() {
             requestOptions
         )
             .then((response) => response.json())
-            .then((result) => setVideos(result.items))
+            .then((result) => {
+                setVideos(
+                    result.items
+                        .map((video) => {
+                            if (typeof video.id != String)
+                                video.id = video.id.videoId;
+                            return video;
+                        })
+                        .filter((video) => video.id !== undefined)
+                );
+            })
             .catch((error) => console.log("error", error));
     }, []);
 
+    const selectVideo = (video) => {
+        setSelectedVideo(video);
+    };
+    console.log(videos);
     useEffect(() => {
         let requestOptions = {
             method: "GET",
@@ -36,10 +52,13 @@ function App() {
             .catch((error) => console.log("error", error));
     }, []);
 
+    //
+
     return (
         <>
             <SearchForm onSearch={handleSearch} />
-            <VideoList videos={videos} />
+            {selectedVideo && <VideoDetail video={selectedVideo} />}
+            <VideoList videos={videos} onVideoClick={selectVideo} />
         </>
     );
 }
