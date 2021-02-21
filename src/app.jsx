@@ -6,15 +6,21 @@ import VideoDetail from "./components/video_detail/video_detail";
 
 function App({ youtube }) {
     const [videos, setVideos] = useState([]);
+    const [channelsThumbnails, setChannelsThumbnails] = useState(null);
     const [selectedVideo, setSelectedVideo] = useState(null);
 
     const selectVideo = useCallback((video) => {
         setSelectedVideo(video);
+        youtube
+            .getChannelsThumbnails(video.snippet.channelId)
+            .then((result) => setChannelsThumbnails(result));
     }, []);
 
-    const handleSearch = useCallback((search) => {
+    const onSearch = useCallback((search) => {
         setSelectedVideo(null);
-        youtube.searchWord(search).then((result) => setVideos(result));
+        youtube.searchWord(search).then((result) => {
+            setVideos(result);
+        });
     }, []);
 
     useEffect(() => {
@@ -23,9 +29,12 @@ function App({ youtube }) {
 
     return (
         <>
-            <SearchForm onSearch={handleSearch} />
+            <SearchForm onSearch={onSearch} />
             {selectedVideo ? (
-                <VideoDetail video={selectedVideo} />
+                <VideoDetail
+                    video={selectedVideo}
+                    channelsThumbnails={channelsThumbnails}
+                />
             ) : (
                 <VideoList videos={videos} onVideoClick={selectVideo} />
             )}

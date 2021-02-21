@@ -6,7 +6,6 @@ import "@fortawesome/fontawesome-free/js/all.js";
 import Youtube from "./service/youtube-fetch";
 
 const youtube = new Youtube(process.env.REACT_APP_YOUTUBE_API_KEY);
-console.log(youtube.mostPopular());
 ReactDOM.render(
     <React.StrictMode>
         <App youtube={youtube} />

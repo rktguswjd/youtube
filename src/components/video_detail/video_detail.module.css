@@ -1,0 +1,36 @@
+.container {
+    width: 60%;
+    margin-left: 2.5em;
+}
+
+.wrapper {
+    position: relative;
+    padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+}
+
+.player {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.matadate {
+    width: 100%;
+}
+
+.title {
+    font-size: 1.5em;
+}
+.thumbnail {
+    float: left;
+    width: 48px;
+    height: 48px;
+    margin-right: 1em;
+    border-radius: 50px; /* 이미지 반크기만큼 반경을 잡기*/
+}
+
+.channelTitle {
+    font-size: 1em;
+}
+.description {
+}

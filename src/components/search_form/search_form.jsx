@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import styles from "./search_form.module.css";
 
 const SearchForm = ({ onSearch }) => {
     const inputRef = useRef();
@@ -18,20 +19,20 @@ const SearchForm = ({ onSearch }) => {
     };
 
     return (
-        <header className="header">
-            <div className="header-logo">
-                <i className="fab fa-youtube"></i>
-                <h4>YouTube</h4>
+        <header className={styles.header}>
+            <div className={styles.title}>
+                <i className={`fab fa-youtube fa-2x ${styles.logo}`}></i>
+                <h2 className={styles.titleName}>YouTube</h2>
             </div>
             <input
                 ref={inputRef}
                 type="search"
-                className="search-input"
+                className={styles.input}
                 placeholder="Search.."
                 onKeyPress={onKeyPress}
             />
-            <button className="search-button" type="submit" onClick={onClick}>
-                <i className="fas fa-search"></i>
+            <button className={styles.button} type="submit" onClick={onClick}>
+                <i className={`fas fa-search ${styles.search}`}></i>
             </button>
         </header>
     );
