@@ -1,5 +1,5 @@
 import React from "react";
-import VideoItem from "./video_item";
+import VideoItem from "../video_item/video_item";
 
 const VideoList = ({ videos, onVideoClick }) => {
     return (

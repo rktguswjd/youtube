@@ -1,47 +1,26 @@
 import React, { useState, useEffect, useCallback } from "react";
-import SearchForm from "./components/search_form";
-import VideoList from "./components/video_list";
-import { mostPopular, searchWord } from "./service/youtube-fetch";
+import SearchForm from "./components/search_form/search_form";
+import VideoList from "./components/video_list/video_list";
 import "./app.css";
-import VideoDetail from "./components/video_detail";
+import VideoDetail from "./components/video_detail/video_detail";
 
-function App() {
+function App({ youtube }) {
     const [videos, setVideos] = useState([]);
-    const [selectedVideo, setSelectedVideo] = useState("");
-
-    const handleSearch = useCallback((search) => {
-        if (search === "") {
-            setSelectedVideo("");
-            mostPopular()
-                .then((response) => response.json())
-                .then((result) => setVideos(result.items))
-                .catch((error) => console.log("error", error));
-        } else {
-            searchWord(search)
-                .then((response) => response.json())
-                .then((result) =>
-                    result.items.map((item) => ({
-                        ...item,
-                        id: item.id.videoId,
-                    }))
-                )
-                .then((items) => setVideos(items))
-                .catch((error) => console.log("error", error));
-        }
-    }, []);
+    const [selectedVideo, setSelectedVideo] = useState(null);
 
     const selectVideo = useCallback((video) => {
         setSelectedVideo(video);
     }, []);
 
-    useEffect(() => {
-        mostPopular()
-            .then((response) => response.json())
-            .then((result) => setVideos(result.items))
-            .catch((error) => console.log("error", error));
+    const handleSearch = useCallback((search) => {
+        setSelectedVideo(null);
+        youtube.searchWord(search).then((result) => setVideos(result));
     }, []);
 
-    console.log(videos);
+    useEffect(() => {
+        youtube.mostPopular().then((result) => setVideos(result));
+    }, []);
+
     return (
         <>
             <SearchForm onSearch={handleSearch} />

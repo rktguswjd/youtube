@@ -1,22 +1,29 @@
-export const mostPopular = () => {
-    let requestOptions = {
-        method: "GET",
-        redirect: "follow",
-    };
-    return fetch(
-        "https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=AIzaSyCsVvXYflpkfnfvlGHTRVCndJ8zuTSVB6U",
-        requestOptions
-    );
-};
+class Youtube {
+    constructor(key) {
+        this.key = key;
+        this.getRequestOptions = {
+            method: "GET",
+            redirect: "follow",
+        };
+    }
 
-export const searchWord = (search) => {
-    let requestOptions = {
-        method: "GET",
-        redirect: "follow",
-    };
+    async mostPopular() {
+        const response = await fetch(
+            `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=${this.key}`,
+            this.getRequestOptions
+        );
+        const result = await response.json();
+        return result.items;
+    }
 
-    return fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${search}&type=video&key=AIzaSyCsVvXYflpkfnfvlGHTRVCndJ8zuTSVB6U`,
-        requestOptions
-    );
-};
+    async searchWord(query) {
+        const response = await fetch(
+            `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&type=video&key=${this.key}`,
+            this.getRequestOptions
+        );
+        const result = await response.json();
+        return result.items.map((item) => ({ ...item, id: item.id.videoId }));
+    }
+}
+
+export default Youtube;
