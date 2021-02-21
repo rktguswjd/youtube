@@ -1,7 +1,6 @@
 import React from "react";
 
 const VideoItem = ({ video, onVideoClick }) => {
-    // console.log(video);
     const onClick = () => {
         onVideoClick(video);
     };

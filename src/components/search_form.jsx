@@ -1,11 +1,16 @@
 import React from "react";
 
-const SearchForm = (props) => {
+const SearchForm = ({ onSearch }) => {
     const inputRef = React.createRef();
     const onSubmit = (event) => {
         event.preventDefault();
         const searchWord = inputRef.current.value;
-        searchWord && props.onSearch(searchWord);
+        searchWord && onSearch(searchWord);
+    };
+
+    const onClick = () => {
+        inputRef.current.value = "";
+        onSearch("");
     };
 
     return (
@@ -13,7 +18,16 @@ const SearchForm = (props) => {
             <div className="header">
                 <div className="header-logo">
                     <i className="fab fa-youtube"></i>
-                    <h4>YouTube</h4>
+                    <button
+                        style={{
+                            padding: "0",
+                            border: "none",
+                            background: "none",
+                        }}
+                        onClick={onClick}
+                    >
+                        <h4>YouTube</h4>
+                    </button>
                 </div>
 
                 <form className="search-form" onSubmit={onSubmit}>

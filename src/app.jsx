@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import SearchForm from "./components/search_form";
 import VideoList from "./components/video_list";
+import { mostPopular, searchWord } from "./service/youtube-fetch";
 import "./app.css";
 import VideoDetail from "./components/video_detail";
 
@@ -9,56 +10,46 @@ function App() {
     const [selectedVideo, setSelectedVideo] = useState("");
 
     const handleSearch = useCallback((search) => {
-        let requestOptions = {
-            method: "GET",
-            redirect: "follow",
-        };
-
-        fetch(
-            `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${search}&key=AIzaSyCsVvXYflpkfnfvlGHTRVCndJ8zuTSVB6U`,
-            requestOptions
-        )
-            .then((response) => response.json())
-            .then((result) => {
-                setVideos(
-                    result.items
-                        .map((video) => {
-                            if (typeof video.id != String)
-                                video.id = video.id.videoId;
-                            return video;
-                        })
-                        .filter((video) => video.id !== undefined)
-                );
-            })
-            .catch((error) => console.log("error", error));
+        if (search === "") {
+            setSelectedVideo("");
+            mostPopular()
+                .then((response) => response.json())
+                .then((result) => setVideos(result.items))
+                .catch((error) => console.log("error", error));
+        } else {
+            searchWord(search)
+                .then((response) => response.json())
+                .then((result) =>
+                    result.items.map((item) => ({
+                        ...item,
+                        id: item.id.videoId,
+                    }))
+                )
+                .then((items) => setVideos(items))
+                .catch((error) => console.log("error", error));
+        }
     }, []);
 
-    const selectVideo = (video) => {
+    const selectVideo = useCallback((video) => {
         setSelectedVideo(video);
-    };
-    console.log(videos);
-    useEffect(() => {
-        let requestOptions = {
-            method: "GET",
-            redirect: "follow",
-        };
+    }, []);
 
-        fetch(
-            "https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=AIzaSyCsVvXYflpkfnfvlGHTRVCndJ8zuTSVB6U",
-            requestOptions
-        )
+    useEffect(() => {
+        mostPopular()
             .then((response) => response.json())
             .then((result) => setVideos(result.items))
             .catch((error) => console.log("error", error));
     }, []);
 
-    //
-
+    console.log(videos);
     return (
         <>
             <SearchForm onSearch={handleSearch} />
-            {selectedVideo && <VideoDetail video={selectedVideo} />}
-            <VideoList videos={videos} onVideoClick={selectVideo} />
+            {selectedVideo ? (
+                <VideoDetail video={selectedVideo} />
+            ) : (
+                <VideoList videos={videos} onVideoClick={selectVideo} />
+            )}
         </>
     );
 }
