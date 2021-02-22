@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+.app {
+    max-width: 80rem;
+}
+
+.section {
+    display: flex;
+}
+
+.detail {
+    flex: 1 1 70%;
+}
+
+.lst {
+    flex: 1 1 30%;
+}

@@ -1,26 +1,11 @@
-.container {
-    width: 60%;
-    margin-left: 2.5em;
+.detail {
+    padding: 0.2em;
 }
 
-.wrapper {
-    position: relative;
-    padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+.description {
+    white-space: pre-wrap;
 }
 
-.player {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.matadate {
-    width: 100%;
-}
-
-.title {
-    font-size: 1.5em;
-}
 .thumbnail {
     float: left;
     width: 48px;
@@ -33,4 +18,5 @@
     font-size: 1em;
 }
 .description {
+    white-space: pre-wrap;
 }

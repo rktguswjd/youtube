@@ -3,7 +3,6 @@ import ReactPlayer from "react-player";
 import styles from "./video_detail.module.css";
 
 const VideoDetail = ({ video, channelsThumbnails }) => {
-    console.log(channelsThumbnails);
     return (
         <>
             <div className={styles.container}>
@@ -13,8 +12,6 @@ const VideoDetail = ({ video, channelsThumbnails }) => {
                         url={`https://www.youtube.com/embed/${video.id}`}
                         playing
                         controls
-                        width="100%"
-                        height="100%"
                     />
                 </div>
                 <div className={styles.matadate}>

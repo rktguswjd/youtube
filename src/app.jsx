@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import SearchForm from "./components/search_form/search_form";
 import VideoList from "./components/video_list/video_list";
-import "./app.css";
+import styles from "./app.module.css";
 import VideoDetail from "./components/video_detail/video_detail";
 
 function App({ youtube }) {
@@ -28,17 +28,26 @@ function App({ youtube }) {
     }, []);
 
     return (
-        <>
+        <div className={styles.app}>
             <SearchForm onSearch={onSearch} />
-            {selectedVideo ? (
-                <VideoDetail
-                    video={selectedVideo}
-                    channelsThumbnails={channelsThumbnails}
-                />
-            ) : (
-                <VideoList videos={videos} onVideoClick={selectVideo} />
-            )}
-        </>
+            <section className={styles.section}>
+                {selectedVideo && (
+                    <div className={styles.detail}>
+                        <VideoDetail
+                            video={selectedVideo}
+                            channelsThumbnails={channelsThumbnails}
+                        />
+                    </div>
+                )}
+                <div className={styles.list}>
+                    <VideoList
+                        videos={videos}
+                        onVideoClick={selectVideo}
+                        display={selectedVideo ? "list" : "grid"}
+                    />
+                </div>
+            </section>
+        </div>
     );
 }
 
